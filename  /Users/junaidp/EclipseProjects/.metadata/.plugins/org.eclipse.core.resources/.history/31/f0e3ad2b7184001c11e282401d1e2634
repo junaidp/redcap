@@ -1,0 +1,39 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.datamodel;
+
+import com.analytics.client.view.MenuBase;
+import com.analytics.client.view.menus.dashboard.Heading;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
+
+public class DataModelPanel extends MenuBase implements IsWidget, Panels {
+	
+	protected DataModelListWidget dataModelList =  null;
+	
+	@Override
+	public Widget layout() {
+		VerticalLayoutContainer v = new VerticalLayoutContainer();
+		Heading heading = new Heading("Data Model");
+		v.add(heading);
+		 dataModelList = new DataModelListWidget();
+		DataModelSearchWidget dataModelSearchWidget = new DataModelSearchWidget(this);
+
+		v.add(dataModelSearchWidget, new VerticalLayoutData(-1,-1, new Margins(0,0,10,0)));
+		v.add(dataModelList, new VerticalLayoutData(-1,-1, new Margins(30,0,0,0)));
+		v.setWidth(300);
+		return v;
+	
+	}
+
+
+	@Override
+	public Widget asWidget() {
+		return layout();
+	}
+	
+
+
+}

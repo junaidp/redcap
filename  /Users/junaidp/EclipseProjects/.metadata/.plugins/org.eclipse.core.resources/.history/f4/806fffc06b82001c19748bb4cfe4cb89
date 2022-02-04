@@ -1,0 +1,15 @@
+package com.analytics.client.view.menus.queries.steps.clinicaldatamodel;
+
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.TextField;
+
+public class DataModelPanel extends VerticalLayoutContainer{
+	
+	public DataModelPanel() {
+		TextField searchField = new TextField();
+		//DataModelListPanel dataModelList = new DataModelListPanel();
+		add(searchField);
+		//add(dataModelList);
+	}
+
+}

@@ -1,0 +1,27 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.datamodel;
+
+import com.analytics.client.view.images.Images;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.google.gwt.user.client.ui.Image;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.TextField;
+
+public class DataModelSearchWidget extends HorizontalLayoutContainer implements  Panels {
+	
+	public DataModelSearchWidget() {
+		layout();
+	
+	}
+
+	@Override
+	public void layout() {
+		TextField searchField = new TextField();
+		Image add = new Image(Images.INSTANCE.add());
+		add(searchField, new HorizontalLayoutData(-1,-1, new Margins(10,0,10,0)));
+		add(add, new HorizontalLayoutData(-1,-1, new Margins(10,0,10,0)));
+		searchField.setEmptyText("search package ");
+		add.addStyleName("image");
+	}
+
+}

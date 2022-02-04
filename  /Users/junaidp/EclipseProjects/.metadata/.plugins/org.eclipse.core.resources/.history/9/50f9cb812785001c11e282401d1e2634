@@ -1,0 +1,9 @@
+package com.analytics.client.view.menus.dashboard;
+
+import com.google.gwt.user.client.ui.Widget;
+
+public interface Panels {
+	
+	public Widget layout();
+
+}

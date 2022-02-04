@@ -1,0 +1,68 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.tables;
+
+import java.util.List;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.FramedPanel;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.CssFloatLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.CssFloatLayoutContainer.CssFloatData;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.FieldLabel;
+import com.sencha.gxt.widget.core.client.form.FormPanel.LabelAlign;
+import com.sencha.gxt.widget.core.client.form.FormPanelHelper;
+import com.sencha.gxt.widget.core.client.form.HtmlEditor;
+import com.sencha.gxt.widget.core.client.form.TextField;
+
+public class TableCreation extends VerticalLayoutContainer implements Panels {
+
+	public TableCreation() {
+		layout();
+	}
+	@Override
+	public void layout() {
+
+		TextField tableName = new TextField();
+		tableName.setAllowBlank(false);
+
+		TextField oracleName = new TextField();
+		oracleName.setAllowBlank(false);
+
+		TextField sasName = new TextField();
+
+		TextField sasLabel = new TextField();
+		TextField aliases = new TextField();
+		TextField sdtm = new TextField();
+
+		HtmlEditor htmlEditor = new HtmlEditor();
+
+		CssFloatLayoutContainer columns = new CssFloatLayoutContainer();
+		columns.add(new FieldLabel(tableName, "Table Name"), new CssFloatData(0.5, new Margins(0, 7, 0, 0)));
+		columns.add(new FieldLabel(oracleName, "Oracle Name"), new CssFloatData(0.5, new Margins(0, 0, 0, 8)));
+		columns.add(new FieldLabel(sasName, "Sas Name"), new CssFloatData(0.5, new Margins(0, 7, 0, 0)));
+		columns.add(new FieldLabel(sasLabel, "Sas Label"), new CssFloatData(0.5, new Margins(0, 0, 0, 8)));
+		columns.add(new FieldLabel(aliases, "Aliases"), new CssFloatData(0.5, new Margins(0, 7, 0, 0)));
+		columns.add(new FieldLabel(sdtm, "SDTM "), new CssFloatData(0.5, new Margins(0, 0, 0, 8)));
+
+
+		VerticalLayoutContainer container = new VerticalLayoutContainer();
+		container.add(columns, new VerticalLayoutData(1, -1, new Margins(15, 15, 0, 15)));
+		
+		FramedPanel panel = new FramedPanel();
+		panel.setHeading("Advanced Forms");
+		panel.setHeaderVisible(false);
+		panel.add(container);
+	
+		// need to call after everything is constructed
+		List<FieldLabel> fieldLabels = FormPanelHelper.getFieldLabels(panel);
+		for (FieldLabel fieldLabel : fieldLabels) {
+			fieldLabel.setLabelAlign(LabelAlign.TOP);
+		}
+
+
+		add(container);
+	}
+
+
+}

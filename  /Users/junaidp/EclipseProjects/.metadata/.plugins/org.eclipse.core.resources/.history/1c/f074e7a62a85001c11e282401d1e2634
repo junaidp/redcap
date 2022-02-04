@@ -1,0 +1,16 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.targetdatamodel;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.google.gwt.user.client.Window;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+
+public class TargetDataModelPanel extends VerticalLayoutContainer implements Panels{
+
+	@Override
+	public void layout() {
+		Window.alert("in target");
+		add(new TablesGrid(null), new VerticalLayoutData(-1,-1, new Margins(0,0,0,0)));
+	}
+
+}

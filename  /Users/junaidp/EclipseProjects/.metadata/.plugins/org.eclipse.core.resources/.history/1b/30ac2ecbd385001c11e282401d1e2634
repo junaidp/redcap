@@ -1,0 +1,7 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.columns;
+
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+
+public class ColumnsPanel extends VerticalLayoutContainer implements Panels {
+
+}

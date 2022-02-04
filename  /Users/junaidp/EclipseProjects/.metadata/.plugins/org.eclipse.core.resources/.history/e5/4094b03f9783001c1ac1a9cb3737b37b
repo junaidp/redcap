@@ -1,0 +1,23 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel;
+
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.TextField;
+
+public class DataModelPanel extends VerticalLayoutContainer{
+	
+	public DataModelPanel() {
+		TextField searchField = new TextField();
+		DataModelListPanel dataModelList = new DataModelListPanel();
+		
+		HorizontalLayoutContainer h = new HorizontalLayoutContainer();
+		h.add(searchField, new HorizontalLayoutData(-1,-1, new Margins(0,0,0,0)));
+		add(h, new VerticalLayoutData(-1,-1, new Margins(0,0,0,0)));
+		add(dataModelList, new VerticalLayoutData(-1,-1, new Margins(30,0,0,0)));
+		
+		setWidth(300);
+	}
+
+}

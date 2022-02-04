@@ -1,0 +1,1 @@
+INDEX VERSION 1.4+/Users/junaidp/eclipse/jee-2020-03/Eclipse.app/Contents/MacOS/ /Users/junaidp/EclipseProjects/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;vassal&apos;" deleteContents="false" description="Delete resource &apos;vassal&apos;" element1="/vassal" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1615450874650"/>&#x0A;<refactoring comment="Delete resource &apos;vassal-app&apos;" deleteContents="false" description="Delete resource &apos;vassal-app&apos;" element1="/vassal-app" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1615450885935"/>
+</session>

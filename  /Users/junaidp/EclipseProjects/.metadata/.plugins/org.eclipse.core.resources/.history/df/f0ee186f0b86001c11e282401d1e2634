@@ -1,0 +1,125 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.tables;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.client.view.widgets.DialogDashboard;
+import com.analytics.client.view.widgets.DialogResponse;
+import com.analytics.client.view.widgets.IconsWidget;
+import com.analytics.shared.TestData;
+import com.analytics.shared.dtos.PackageDTO;
+import com.analytics.shared.dtos.TablesDTO;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+
+public class TablesPanel extends VerticalLayoutContainer implements Panels {
+	
+	private TablesGrid tablesGrid =   null;
+	private PackageDTO selectedPackage;
+	private TablesDTO selectedTableDTO = null;
+	
+	public TablesPanel() {
+		layout();
+	}
+
+	@Override
+	public void layout() {
+		IconsWidget iconsWIdget = new IconsWidget();		
+		
+		add(iconsWIdget, new VerticalLayoutData(-1,-1, new Margins(10,0,20,0)));
+		tablesGrid = new TablesGrid(null);
+		add(tablesGrid, new VerticalLayoutData(-1,-1, new Margins(0,0,0,0)));
+		
+		iconsWIdget.add.addClickHandler(Event -> showAddTableDialog());
+		iconsWIdget.edit.addClickHandler(Event -> showEditTableDialog());
+		iconsWIdget.delete.addClickHandler(Event -> showAddTableDialog());
+		
+	}
+	
+	private void showAddTableDialog() {
+		
+		TableCreation tableCreation = new TableCreation();
+		DialogDashboard d = new DialogDashboard(tableCreation, "Create Table" , 500, 500, new AsyncCallback<DialogResponse>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
+
+			@Override
+			public void onSuccess(DialogResponse result) {
+				if(result == DialogResponse.SUBMIT)
+					addTable(tableCreation);
+			}
+		});
+		d.go();
+	}
+	
+	private void addTable(TableCreation tableCreation) {
+		TablesDTO d1 = new TablesDTO();
+		d1.setKey(tableCreation.getTableName().getText()+"key");
+		d1.setName(tableCreation.getTableName().getText());
+		d1.setAliases(tableCreation.getAliases().getText());
+		d1.setOracleName(tableCreation.getOracleName().getText());
+		d1.setSasLabel(tableCreation.getSasLabel().getText());
+		d1.setSasName(tableCreation.getSasName().getText());
+		d1.setSdtmIndentifier("Stm identifer");
+		d1.setPackageId(tableCreation.getSelectedPackage().getKey());
+		
+		
+		TestData.addTable(d1);
+		tablesGrid.populate(TestData.getTables(d1.getPackageId()));		
+		
+	}
+	
+	private void showEditTableDialog() {
+		
+		TableCreation tableCreation = new TableCreation();
+		DialogDashboard d = new DialogDashboard(tableCreation, "Create Table" , 500, 500, new AsyncCallback<DialogResponse>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
+
+			@Override
+			public void onSuccess(DialogResponse result) {
+				if(result == DialogResponse.SUBMIT)
+					addTable(tableCreation);
+			}
+		});
+		d.go();
+	}
+	
+	private void editTable(TableCreation tableCreation) {
+		TablesDTO d1 = new TablesDTO();
+		d1.setKey(tableCreation.getTableName().getText()+"key");
+		d1.setName(tableCreation.getTableName().getText());
+		d1.setAliases(tableCreation.getAliases().getText());
+		d1.setOracleName(tableCreation.getOracleName().getText());
+		d1.setSasLabel(tableCreation.getSasLabel().getText());
+		d1.setSasName(tableCreation.getSasName().getText());
+		d1.setSdtmIndentifier("Stm identifer");
+		d1.setPackageId(tableCreation.getSelectedPackage().getKey());
+		
+		
+		TestData.addTable(d1);
+		tablesGrid.populate(TestData.getTables(d1.getPackageId()));		
+		
+	}
+	
+	
+
+	public TablesGrid getTablesGrid() {
+		return tablesGrid;
+	}
+
+	public PackageDTO getSelectedPackage() {
+		return selectedPackage;
+	}
+
+	public void setSelectedPackage(PackageDTO selectedPackage) {
+		this.selectedPackage = selectedPackage;
+	}
+
+
+}

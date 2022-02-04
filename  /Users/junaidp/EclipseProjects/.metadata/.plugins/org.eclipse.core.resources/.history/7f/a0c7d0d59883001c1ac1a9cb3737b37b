@@ -1,0 +1,33 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.datamodel;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData;
+import com.sencha.gxt.widget.core.client.form.TextField;
+
+public class DataModelSearchWidget  implements IsWidget, Panels {
+	
+	public DataModelSearchWidget() {
+		layout();
+	
+	}
+
+	@Override
+	public Widget layout() {
+		HorizontalLayoutContainer h = new HorizontalLayoutContainer();
+		TextField searchField = new TextField();
+		h.add(searchField, new HorizontalLayoutData(-1,-1, new Margins(0,0,0,0)));
+		return h;
+	}
+
+	
+	@Override
+	public Widget asWidget() {
+		return layout();
+	}
+
+}

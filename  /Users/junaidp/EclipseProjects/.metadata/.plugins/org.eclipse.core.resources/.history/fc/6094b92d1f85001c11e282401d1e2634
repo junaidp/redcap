@@ -1,0 +1,25 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.targetdatamodel;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
+
+public class TargetDataModelPanel implements IsWidget, Panels{
+
+	@Override
+	public Widget asWidget() {
+		return layout();
+	}
+
+	@Override
+	public Widget layout() {
+		VerticalLayoutContainer v = new VerticalLayoutContainer();
+		v.add(new TablesGrid(null), new VerticalLayoutData(-1,-1, new Margins(0,0,0,0)));
+		v.add(new ColumnsGrid(null), new VerticalLayoutData(-1,-1, new Margins(10,0,0,0)));
+		return v;
+	}
+
+}

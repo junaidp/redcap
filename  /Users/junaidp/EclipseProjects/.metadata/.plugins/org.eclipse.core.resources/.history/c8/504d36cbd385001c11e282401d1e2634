@@ -1,0 +1,17 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.tables;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
+
+public class TablesPanel extends VerticalLayoutContainer implements Panels {
+
+	@Override
+	public void layout() {
+		add(new TablesGrid(null), new VerticalLayoutData(-1,-1, new Margins(0,0,0,0)));
+		
+		
+	}
+
+}

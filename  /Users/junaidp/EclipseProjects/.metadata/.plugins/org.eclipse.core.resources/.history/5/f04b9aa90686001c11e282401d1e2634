@@ -1,0 +1,55 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel;
+
+
+import com.analytics.client.view.menus.dashboard.steps.TabImpl;
+import com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.packages.PackagePanel;
+import com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.tables.TablesAndColumnsPanel;
+import com.analytics.shared.TestData;
+import com.analytics.shared.dtos.PackageDTO;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData;
+
+public class ClinicalDataModel extends TabImpl{
+	
+	PackagePanel packagePanel = null;
+	TablesAndColumnsPanel tablesAndColumnsPanel = null;
+
+	public ClinicalDataModel() {
+		packagePanel = new PackagePanel();
+		tablesAndColumnsPanel = new TablesAndColumnsPanel();
+		HorizontalLayoutContainer h = new HorizontalLayoutContainer();
+		h.add(packagePanel, new HorizontalLayoutData(-1, -1, new Margins(5,15,5,5)));
+		h.add(tablesAndColumnsPanel, new HorizontalLayoutData(-1, -1, new Margins(5,15,5,5)));
+		add(h);
+		
+		handlers();
+	}
+	
+
+	private void handlers() {
+		packagePanel.getDataModelList().getListView().getSelectionModel().addSelectionHandler(new SelectionHandler<PackageDTO>() {
+
+			@Override
+			public void onSelection(SelectionEvent<PackageDTO> event) {
+				tablesAndColumnsPanel.getTablesPanel().setSelectedPackage(event.getSelectedItem());
+				tablesAndColumnsPanel.getTablesPanel().getTablesGrid().populate(TestData.getTables(event.getSelectedItem().getKey()));	
+			}
+		});
+	}
+
+
+	@Override
+	public void loadModel() {
+
+
+	}
+
+	@Override
+	public void saveModel() {
+
+	}
+
+}

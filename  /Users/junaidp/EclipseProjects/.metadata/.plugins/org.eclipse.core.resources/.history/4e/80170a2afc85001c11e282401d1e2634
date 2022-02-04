@@ -1,0 +1,66 @@
+package com.analytics.shared.dtos;
+
+public class ColumnsDTO {
+	
+	private String  key;
+	private String  columnName;
+	private String  order;
+	private String  oracleDataType;
+	private String  length;
+	private String  precision;
+	private String  filter;
+	private String tableId;
+	
+
+	
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
+	public String getColumnName() {
+		return columnName;
+	}
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
+	}
+	public String getOrder() {
+		return order;
+	}
+	public void setOrder(String order) {
+		this.order = order;
+	}
+	public String getOracleDataType() {
+		return oracleDataType;
+	}
+	public void setOracleDataType(String oracleDataType) {
+		this.oracleDataType = oracleDataType;
+	}
+	public String getLength() {
+		return length;
+	}
+	public void setLength(String length) {
+		this.length = length;
+	}
+	public String getPrecision() {
+		return precision;
+	}
+	public void setPrecision(String precision) {
+		this.precision = precision;
+	}
+	public String getFilter() {
+		return filter;
+	}
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+	public String getTableId() {
+		return tableId;
+	}
+	public void setTableId(String string) {
+		this.tableId = string;
+	}
+	
+
+}

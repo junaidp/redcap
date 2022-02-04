@@ -1,0 +1,60 @@
+package com.analytics.shared.dtos;
+
+public class TablesDTO {
+	
+	private String  key;
+	private String  name;
+	private String  oracleName;
+	private String  sasName;
+	private String  sasLabel;
+	private String  aliases;
+	private String  sdtmIndentifier;
+	
+	public String getOracleName() {
+		return oracleName;
+	}
+	public void setOracleName(String oracleName) {
+		this.oracleName = oracleName;
+	}
+	public String getSasName() {
+		return sasName;
+	}
+	public void setSasName(String sasName) {
+		this.sasName = sasName;
+	}
+	public String getSasLabel() {
+		return sasLabel;
+	}
+	public void setSasLabel(String sasLabel) {
+		this.sasLabel = sasLabel;
+	}
+	public String getAliases() {
+		return aliases;
+	}
+	public void setAliases(String aliases) {
+		this.aliases = aliases;
+	}
+	public String getSdtmIndentifier() {
+		return sdtmIndentifier;
+	}
+	public void setSdtmIndentifier(String sdtmIndentifier) {
+		this.sdtmIndentifier = sdtmIndentifier;
+	}
+
+	
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
+
+}

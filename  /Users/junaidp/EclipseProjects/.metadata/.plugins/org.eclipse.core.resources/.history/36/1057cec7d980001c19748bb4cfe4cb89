@@ -1,0 +1,5 @@
+package com.analytics.shared.dtos;
+
+public class DataModelDTO {
+
+}

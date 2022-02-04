@@ -1,0 +1,31 @@
+package com.analytics.client.view.menus.queries.steps.clinicaldatamodel;
+
+
+import com.analytics.client.view.menus.dashboard.steps.TabImpl;
+import com.google.gwt.user.client.ui.HTML;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData;
+
+public class ClinicalDataModel extends TabImpl{
+
+	public ClinicalDataModel() {
+		HorizontalLayoutContainer h = new HorizontalLayoutContainer();
+		h.add(new DataModelPanel(), new HorizontalLayoutData(-1, -1, new Margins(5,15,5,5)));
+		h.add(new HTML("right"), new HorizontalLayoutData(-1, -1, new Margins(5,15,5,5)));
+		add(h);
+	}
+	
+
+	@Override
+	public void loadModel() {
+
+
+	}
+
+	@Override
+	public void saveModel() {
+
+	}
+
+}

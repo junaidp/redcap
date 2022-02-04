@@ -1,0 +1,40 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.tables;
+
+import com.analytics.client.view.images.Images;
+import com.analytics.client.view.menus.dashboard.Heading;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.columns.ColumnsGrid;
+import com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.columns.ColumnsPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.Dialog;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+
+public class TablesAndColumnsPanel extends VerticalLayoutContainer implements Panels{
+
+	public TablesAndColumnsPanel() {
+		layout();
+	}
+	
+	@Override
+	public void layout() {
+		
+		Heading heading = new Heading("Target Data Model");
+		
+		add(heading);
+		add(new TablesPanel(), new VerticalLayoutData(-1,-1, new Margins(0,0,0,0)));
+		
+		add(new ColumnsPanel(), new VerticalLayoutData(-1,-1, new Margins(10,0,0,0)));
+		
+		
+	}
+
+	
+	
+	
+
+}

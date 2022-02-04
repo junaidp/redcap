@@ -1,0 +1,11 @@
+package com.analytics.client.view.menus.dashboard;
+
+import com.google.gwt.user.client.ui.HTML;
+
+public class Heading extends HTML {
+	
+	public Heading() {
+		addStyleName("heading");
+	}
+
+}

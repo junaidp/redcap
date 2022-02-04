@@ -1,0 +1,151 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.tables;
+
+import java.util.List;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.shared.TestData;
+import com.analytics.shared.dtos.PackageDTO;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.sencha.gxt.cell.core.client.form.ComboBoxCell.TriggerAction;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.data.shared.LabelProvider;
+import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.ModelKeyProvider;
+import com.sencha.gxt.data.shared.PropertyAccess;
+import com.sencha.gxt.widget.core.client.FramedPanel;
+import com.sencha.gxt.widget.core.client.container.CssFloatLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.CssFloatLayoutContainer.CssFloatData;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.ComboBox;
+import com.sencha.gxt.widget.core.client.form.FieldLabel;
+import com.sencha.gxt.widget.core.client.form.FormPanel.LabelAlign;
+import com.sencha.gxt.widget.core.client.form.FormPanelHelper;
+import com.sencha.gxt.widget.core.client.form.TextField;
+import com.sencha.gxt.widget.core.client.info.Info;
+
+public class TableCreation extends VerticalLayoutContainer implements Panels {
+
+	private TextField tableName = null;
+	private TextField oracleName = null;
+	private TextField sasName = null;
+	private TextField sasLabel = null;
+	private TextField aliases = null;
+	private TextField sdtm = null;
+	private ComboBox<PackageDTO> packageCombo = null;
+	
+	interface PackageProperties extends PropertyAccess<PackageDTO> {
+	    ModelKeyProvider<PackageDTO> abbr();
+
+	    LabelProvider<PackageDTO> name();
+	  }
+
+	
+	public TableCreation() {
+		init();
+		layout();
+	}
+	private void init() {
+		 tableName = new TextField();
+		 oracleName = new TextField();
+		 sasName = new TextField();
+		 sasLabel = new TextField();
+		 aliases = new TextField();
+		 sdtm = new TextField();
+	}
+	@Override
+	public void layout() {
+
+		tableName.setAllowBlank(false);
+
+		oracleName.setAllowBlank(false);
+
+		CssFloatLayoutContainer columns = new CssFloatLayoutContainer();
+		columns.add(new FieldLabel(tableName, "Table Name"), new CssFloatData(0.5, new Margins(0, 7, 0, 0)));
+		columns.add(new FieldLabel(oracleName, "Oracle Name"), new CssFloatData(0.5, new Margins(0, 0, 0, 8)));
+		columns.add(new FieldLabel(sasName, "Sas Name"), new CssFloatData(0.5, new Margins(0, 7, 0, 0)));
+		columns.add(new FieldLabel(sasLabel, "Sas Label"), new CssFloatData(0.5, new Margins(0, 0, 0, 8)));
+		columns.add(new FieldLabel(aliases, "Aliases"), new CssFloatData(0.5, new Margins(0, 7, 0, 0)));
+		columns.add(new FieldLabel(sdtm, "SDTM "), new CssFloatData(0.5, new Margins(0, 0, 0, 8)));
+		columns.add(new FieldLabel(getPackage(), "Select Package "), new CssFloatData(0.5, new Margins(0, 7, 0, 0)));
+	
+
+		VerticalLayoutContainer container = new VerticalLayoutContainer();
+		container.add(columns, new VerticalLayoutData(1, -1, new Margins(15, 15, 0, 15)));
+		
+		FramedPanel panel = new FramedPanel();
+		panel.setHeading("Advanced Forms");
+		panel.setHeaderVisible(false);
+		panel.add(container);
+	
+		// need to call after everything is constructed
+		List<FieldLabel> fieldLabels = FormPanelHelper.getFieldLabels(panel);
+		for (FieldLabel fieldLabel : fieldLabels) {
+			fieldLabel.setLabelAlign(LabelAlign.TOP);
+		}
+		add(container);
+	}
+	private ComboBox<PackageDTO> getPackage() {
+		  PackageProperties properties = GWT.create(PackageProperties.class);
+
+	      ListStore<PackageDTO> statesStore = new ListStore<PackageDTO>(properties.abbr());
+	      statesStore.addAll(TestData.getDataModelList());
+	      
+	      ComboBox<PackageDTO> combo = new ComboBox<PackageDTO>(statesStore, properties.name());
+	      combo.setEmptyText("Select a package");
+	      combo.setTypeAhead(true);
+	      combo.setTriggerAction(TriggerAction.ALL);
+	      
+	      combo.addSelectionHandler(new SelectionHandler<PackageDTO>() {
+	          @Override
+	          public void onSelection(SelectionEvent<PackageDTO> event) {
+	           
+	          }
+	        });
+	      
+	      return combo;
+	}
+	
+	public TextField getTableName() {
+		return tableName;
+	}
+	public void setTableName(TextField tableName) {
+		this.tableName = tableName;
+	}
+	public TextField getOracleName() {
+		return oracleName;
+	}
+	public void setOracleName(TextField oracleName) {
+		this.oracleName = oracleName;
+	}
+	public TextField getSasName() {
+		return sasName;
+	}
+	public void setSasName(TextField sasName) {
+		this.sasName = sasName;
+	}
+	public TextField getSasLabel() {
+		return sasLabel;
+	}
+	public void setSasLabel(TextField sasLabel) {
+		this.sasLabel = sasLabel;
+	}
+	public TextField getAliases() {
+		return aliases;
+	}
+	public void setAliases(TextField aliases) {
+		this.aliases = aliases;
+	}
+	public TextField getSdtm() {
+		return sdtm;
+	}
+	public void setSdtm(TextField sdtm) {
+		this.sdtm = sdtm;
+	}
+	public ComboBox<PackageDTO> getPackageCombo() {
+		return packageCombo;
+	}
+
+
+}

@@ -1,0 +1,68 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.packages;
+
+import com.analytics.shared.dtos.PackageDTO;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.editor.client.Editor.Path;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.core.client.ValueProvider;
+import com.sencha.gxt.data.shared.LabelProvider;
+import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.ModelKeyProvider;
+import com.sencha.gxt.data.shared.PropertyAccess;
+import com.sencha.gxt.widget.core.client.ListView;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.ListField;
+
+public class DataModelListWidget implements IsWidget {
+
+	private ListField<PackageDTO, String> listField = null;
+	protected ListStore<PackageDTO> store = null;
+	protected ListView<PackageDTO, String> listView = null;
+
+	public interface Properties extends PropertyAccess<PackageDTO> {
+		@com.google.gwt.editor.client.Editor.Path("key")
+		ModelKeyProvider<PackageDTO> key();
+		LabelProvider<PackageDTO> name();
+
+
+		@Path("name")
+		ValueProvider<PackageDTO, String> nameProp();
+	}	
+
+	Properties properties = GWT.create(Properties.class);
+
+	@Override
+	public Widget asWidget() {
+		return layout();
+	}
+
+	public VerticalLayoutContainer layout() {
+		VerticalLayoutContainer v = new VerticalLayoutContainer();
+		v.add(listField);
+		return v;
+	}
+
+	public DataModelListWidget() {
+
+		store = new ListStore<PackageDTO>(properties.key());
+	
+		listView = new ListView<PackageDTO, String>(store, properties.nameProp());
+
+		listField = new ListField<PackageDTO, String>(listView);
+
+		listView.getSelectionModel().addSelectionHandler(new SelectionHandler<PackageDTO>() {
+
+			@Override
+			public void onSelection(SelectionEvent<PackageDTO> event) {
+				Window.alert(event.getSelectedItem().getName());
+			}
+		});
+
+	}
+	
+	
+}

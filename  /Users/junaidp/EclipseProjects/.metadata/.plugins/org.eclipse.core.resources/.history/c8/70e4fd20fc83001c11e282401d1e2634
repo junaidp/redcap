@@ -1,0 +1,7 @@
+package com.analytics.client.view.menus.dashboard;
+
+public interface Panels {
+	
+	public Widget layout();
+
+}

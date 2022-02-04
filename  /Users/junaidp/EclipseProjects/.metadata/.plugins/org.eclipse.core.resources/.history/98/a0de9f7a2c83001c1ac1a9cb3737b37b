@@ -1,0 +1,101 @@
+package com.analytics.client.view.menus.queries.steps.clinicaldatamodel;
+
+
+import java.util.ArrayList;
+
+import com.analytics.client.view.menus.queries.steps.TabImpl;
+import com.analytics.shared.dtos.DataModelDTO;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.editor.client.Editor.Path;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.core.client.GXT;
+import com.sencha.gxt.core.client.Style.LayoutRegion;
+import com.sencha.gxt.core.client.ValueProvider;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.data.shared.LabelProvider;
+import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.ModelKeyProvider;
+import com.sencha.gxt.data.shared.PropertyAccess;
+import com.sencha.gxt.state.client.BorderLayoutStateHandler;
+import com.sencha.gxt.state.client.CookieProvider;
+import com.sencha.gxt.state.client.StateManager;
+import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.ListView;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData;
+import com.sencha.gxt.widget.core.client.container.MarginData;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.form.ListField;
+
+public class ClinicalDataModel extends TabImpl{
+
+//	public ClinicalDataModel() {
+//		HorizontalLayoutContainer h = new HorizontalLayoutContainer();
+//		h.add(new DataModelPanel(), new HorizontalLayoutData(-1, -1, new Margins(5,5,5,5)));
+//		h.add(new HTML("right"));
+//		add(h);
+//	}
+	private BorderLayoutContainer widget;
+	private BorderLayoutStateHandler stateHandler;
+	public ClinicalDataModel() {
+
+		final boolean borders =  true ;
+		final int margins = 8;
+
+			
+		ContentPanel center = new ContentPanel();
+		center.setHeading("Center");
+		center.setResize(false);
+		
+		ContentPanel north = new ContentPanel();
+		north.setHeading("North");
+
+		ContentPanel west = new ContentPanel();
+		west.setHeading("West");
+
+		ContentPanel east = new ContentPanel();
+		east.setHeading("East");
+
+		ContentPanel south = new ContentPanel();
+		south.setHeading("South");
+
+		BorderLayoutData westData = new BorderLayoutData(150);
+		westData.setMargins(new Margins(0, margins, 0, margins));
+		westData.setCollapsible(true);
+		westData.setCollapseHeaderVisible(true);
+		westData.setSplit(true);
+		westData.setCollapseMini(true);
+
+		MarginData centerData = new MarginData();
+
+		widget = new BorderLayoutContainer();
+		widget.setBorders(borders);
+		widget.setWestWidget(west, westData);
+		widget.setCenterWidget(center, centerData);
+		VerticalLayoutContainer v = new VerticalLayoutContainer();
+		v.add(new HTML("d"));
+		v.add(widget);
+		widget.setHeight(700);
+		add(v);
+	}
+
+	@Override
+	public void loadModel() {
+
+
+	}
+
+	@Override
+	public void saveModel() {
+
+	}
+
+}

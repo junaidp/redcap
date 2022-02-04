@@ -1,0 +1,41 @@
+package com.analytics.client.view.menus.queries.steps.clinicaldatamodel;
+
+
+import com.analytics.client.view.menus.queries.steps.TabImpl;
+import com.google.gwt.user.client.ui.HTML;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
+
+public class ClinicalDataModel extends TabImpl{
+
+	public ClinicalDataModel() {
+		BorderLayoutContainer h = new BorderLayoutContainer();
+		
+		 BorderLayoutData southData = new BorderLayoutData(100);
+	      southData.setMargins(new Margins(10));
+	      southData.setCollapsible(true);
+	      southData.setCollapseHeaderVisible(true);
+	      southData.setSplit(true);
+	      southData.setCollapseMini(true);
+		  h.setWestWidget(new DataModelPanel(),new BorderLayoutData(100) );
+		  h.setHeight(500);
+		  HTML ht = new HTML("right");
+		  ht.setHeight("1000px");
+		  h.setCenterWidget(ht);
+		add(h);
+	}
+	
+
+	@Override
+	public void loadModel() {
+
+
+	}
+
+	@Override
+	public void saveModel() {
+
+	}
+
+}

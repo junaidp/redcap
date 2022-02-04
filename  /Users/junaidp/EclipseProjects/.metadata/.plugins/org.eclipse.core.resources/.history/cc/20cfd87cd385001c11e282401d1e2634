@@ -1,0 +1,85 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.tables;
+
+import com.analytics.client.view.images.Images;
+import com.analytics.client.view.menus.dashboard.Heading;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.columns.ColumnsGrid;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Image;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.Dialog;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+
+public class TablesAndColumnsPanel extends VerticalLayoutContainer implements Panels{
+
+	public TablesAndColumnsPanel() {
+		layout();
+	}
+	
+	@Override
+	public void layout() {
+		
+		Heading heading = new Heading("Target Data Model");
+		Image addTable = new Image(Images.INSTANCE.add());
+		Image addColumn = new Image(Images.INSTANCE.add());		
+		
+		add(heading);
+		add(addTable);
+		add(new TablesGrid(null), new VerticalLayoutData(-1,-1, new Margins(0,0,0,0)));
+		
+		add(addColumn, new VerticalLayoutData(-1,-1, new Margins(50,0,0,0)));
+		add(new ColumnsGrid(null), new VerticalLayoutData(-1,-1, new Margins(10,0,0,0)));
+		
+		addTable.addClickHandler(Event -> addTable());
+		addColumn.addClickHandler(Event -> addColumn());
+		
+	}
+
+	private void addTable() {
+		Dialog d = new Dialog();
+		
+		d.setHeading("Create Table");
+		d.addButton(new TextButton("Cancel"));
+		d.addButton(new TextButton("Submit"));
+
+		d.setWidget(new TableCreation());
+		d.setWidth(520);
+		d.setPredefinedButtons(PredefinedButton.OK, PredefinedButton.CANCEL);
+		d.getButton(PredefinedButton.OK).addSelectHandler(new SelectHandler() {
+			
+			@Override
+			public void onSelect(SelectEvent event) {
+				//addPackage(packageCreation);
+				d.hide();
+			}
+		});
+		d.show();
+	}
+	
+	private void addColumn() {
+		Dialog d = new Dialog();
+		
+		d.setHeading("Create Column");
+		d.addButton(new TextButton("Cancel"));
+		d.addButton(new TextButton("Submit"));
+
+		d.setWidget(new TableCreation());
+		d.setWidth(500);
+		d.setPredefinedButtons(PredefinedButton.OK, PredefinedButton.CANCEL);
+		d.getButton(PredefinedButton.OK).addSelectHandler(new SelectHandler() {
+			
+			@Override
+			public void onSelect(SelectEvent event) {
+				//addPackage(packageCreation);
+				d.hide();
+			}
+		});
+		d.show();
+	}
+
+}

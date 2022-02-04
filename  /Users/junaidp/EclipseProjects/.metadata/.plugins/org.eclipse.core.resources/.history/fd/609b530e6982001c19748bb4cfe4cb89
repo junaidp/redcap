@@ -1,0 +1,5 @@
+package com.analytics.client.view.menus.queries.steps.clinicaldatamodel;
+
+public class DataModelListPanel {
+
+}

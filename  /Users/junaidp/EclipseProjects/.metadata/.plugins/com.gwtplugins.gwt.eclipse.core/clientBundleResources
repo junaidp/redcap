@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+<deps cu="=Dmw/src&lt;com.analytics.client.view.images{Images.java">
+<res path="com/analytics/client/view/images/add.png"/>
+<res path="add.png"/>
+</deps>
+</index>

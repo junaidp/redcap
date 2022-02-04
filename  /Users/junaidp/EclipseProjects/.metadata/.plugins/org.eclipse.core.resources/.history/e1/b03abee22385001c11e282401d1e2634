@@ -1,0 +1,57 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.datamodel;
+
+import com.analytics.client.view.images.Images;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.shared.dtos.DataModelDTO;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer.HorizontalLayoutData;
+import com.sencha.gxt.widget.core.client.form.TextField;
+
+public class DataModelSearchWidget implements  IsWidget, Panels {
+	
+	private DataModelPanel dataModelPanel = null;
+	
+	public DataModelSearchWidget(DataModelPanel dataModelPanel) {
+		this.dataModelPanel = dataModelPanel;
+		layout();
+	
+	}
+
+	@Override
+	public Widget layout() {
+		HorizontalLayoutContainer h = new HorizontalLayoutContainer();
+		TextField searchField = new TextField();
+		Image add = new Image(Images.INSTANCE.add());
+		h.add(searchField, new HorizontalLayoutData(-1,-1, new Margins(10,0,10,0)));
+		h.add(add, new HorizontalLayoutData(-1,-1, new Margins(10,0,10,0)));
+		searchField.setEmptyText("search package ");
+		add.addStyleName("image");
+		add.addClickHandler(Event -> addDataModel());
+		return h;
+	}
+	
+	private void addDataModel() {
+		DataModelDTO d1 = new DataModelDTO();
+		d1.setId(1);
+		d1.setKey("h1");
+		d1.setName("Name1");
+		DataModelDTO d2 = new DataModelDTO();
+		d2.setId(2);
+		d2.setName("Name2");
+		d2.setKey("h2");
+		dataModelPanel.testData.addDataModel(d1);
+		dataModelPanel.testData.addDataModel(d2);
+		dataModelPanel.dataModelList.refreshList();
+		
+	}
+
+	@Override
+	public Widget asWidget() {
+		return layout();
+	}
+
+}

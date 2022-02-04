@@ -1,0 +1,86 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.columns;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.client.view.widgets.IconsWidget;
+import com.analytics.shared.TestData;
+import com.analytics.shared.dtos.ColumnsDTO;
+import com.analytics.shared.dtos.TablesDTO;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.Dialog;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+
+public class ColumnsPanel extends VerticalLayoutContainer implements Panels {
+	
+	private ColumnsGrid columnsGrid = null;
+	private TablesDTO selectedTable = null;
+	public ColumnsPanel() {
+		layout();
+	}
+
+	@Override
+	public void layout() {
+		IconsWidget iconsWIdget = new IconsWidget();		
+		
+		
+		add(iconsWIdget, new VerticalLayoutData(-1,-1, new Margins(0,0,10,0)));
+		columnsGrid = new ColumnsGrid(null);
+		add(columnsGrid, new VerticalLayoutData(-1,-1, new Margins(10,0,0,0)));
+		iconsWIdget.add.addClickHandler(Event -> addColumn());
+		
+	}
+	
+	private void addColumn() {
+		Dialog d = new Dialog();
+		
+		d.setHeading("Create Column");
+		d.addButton(new TextButton("Cancel"));
+		d.addButton(new TextButton("Submit"));
+		ColumnCreation columnCreation = new ColumnCreation(selectedTable);
+		d.setWidget(columnCreation);
+		d.setWidth(500);
+		d.setPredefinedButtons(PredefinedButton.OK, PredefinedButton.CANCEL);
+		d.getButton(PredefinedButton.OK).addSelectHandler(new SelectHandler() {
+			
+			@Override
+			public void onSelect(SelectEvent event) {
+				addData(columnCreation);
+				d.hide();
+			}
+		});
+		d.show();
+	}
+	
+	private void addData(ColumnCreation columnCreation) {
+		ColumnsDTO d1 = new ColumnsDTO();
+		d1.setKey(columnCreation.getColumnName().getText()+"key");
+		d1.setColumnName(columnCreation.getColumnName().getText());
+		d1.setOrder(columnCreation.getOrder().getText());
+		d1.setOracleDataType(columnCreation.getOrderDataType().getText());
+		d1.setLength(columnCreation.getLength().getText());
+		d1.setPrecision(columnCreation.getPrecision().getText());
+		d1.setFilter(columnCreation.getFilter().getText());
+		d1.setTableId(columnCreation.getSelectedTable().getKey());
+		
+		TestData.addColumns(d1);
+		columnsGrid.populate(TestData.getColumns(d1.getTableId()));
+		
+	}
+
+	public TablesDTO getSelectedTable() {
+		return selectedTable;
+	}
+
+	public void setSelectedTable(TablesDTO selectedTable) {
+		this.selectedTable = selectedTable;
+	}
+
+	public ColumnsGrid getColumnsGrid() {
+		return columnsGrid;
+	}
+
+
+}

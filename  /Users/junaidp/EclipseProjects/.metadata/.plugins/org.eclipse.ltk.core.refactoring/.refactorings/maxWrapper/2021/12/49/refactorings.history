@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;MaxWrapper.java&apos; to &apos;testjob/src/com.test.client&apos;&#x0A;- Original project: &apos;maxWrapper&apos;&#x0A;- Destination element: &apos;testjob/src/com.test.client&apos;&#x0A;- Original element: &apos;com.wrapper.client.MaxWrapper.java&apos;" description="Copy compilation unit" destination="=testjob/src&lt;com.test.client" element1="/src&lt;com.wrapper.client{MaxWrapper.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1639217016566" units="1" version="1.0"/>
+</session>

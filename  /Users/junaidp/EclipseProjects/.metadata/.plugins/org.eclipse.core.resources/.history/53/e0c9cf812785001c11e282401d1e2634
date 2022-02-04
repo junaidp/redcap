@@ -1,0 +1,72 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.datamodel;
+
+import com.analytics.client.view.menus.dashboard.Heading;
+import com.analytics.shared.TestData;
+import com.analytics.shared.dtos.DataModelDTO;
+import com.google.gwt.user.client.Window;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+
+public class DataModelPanel extends VerticalLayoutContainer {
+	
+	private DataModelListWidget dataModelList= null;
+	private DataModelSearchWidget dataModelSearchWidget = null;	
+	public TestData testData = new TestData();
+	  
+	public DataModelPanel() {
+		layout();
+	}
+	
+	public void layout() {
+		Window.alert("in dtamodel");
+		dataModelList = new DataModelListWidget();
+		dataModelSearchWidget = new DataModelSearchWidget();
+		 
+		Heading heading = new Heading("Data Model");
+		add(heading);
+		
+		add(dataModelSearchWidget, new VerticalLayoutData(-1,-1, new Margins(0,0,10,0)));
+		add(dataModelList, new VerticalLayoutData(-1,-1, new Margins(30,0,0,0)));
+		setWidth(300);
+		handlers();
+		
+	
+	}
+
+
+	
+	public void populate() {
+		dataModelList.store.addAll(testData.getDataModelList());
+
+	}
+	
+	private void handlers() {
+		dataModelSearchWidget.add.addClickHandler(Event -> addDataModel());
+		
+	}
+	
+	private void addDataModel() {
+		DataModelDTO d1 = new DataModelDTO();
+		d1.setId(1);
+		d1.setKey("h1");
+		d1.setName("Name1");
+		DataModelDTO d2 = new DataModelDTO();
+		d2.setId(2);
+		d2.setName("Name2");
+		d2.setKey("h2");
+		testData.addDataModel(d1);
+		testData.addDataModel(d2);
+		refreshList();
+		
+	}
+	
+	protected void refreshList() {
+		dataModelList.store.clear();
+		dataModelList.store.addAll(testData.getDataModelList());
+		dataModelList.listView.getSelectionModel().select(0, true);
+		
+	}
+
+
+
+}

@@ -1,0 +1,28 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.datamodel;
+
+import com.analytics.client.view.menus.dashboard.Heading;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+
+public class DataModelPanel extends VerticalLayoutContainer implements Panels{
+	
+	protected DataModelListWidget dataModelList = new DataModelListWidget();
+	protected DataModelSearchWidget dataModelSearchWidget = new DataModelSearchWidget();
+	
+	public DataModelPanel() {
+		layout();
+		
+	}
+
+	@Override
+	public void layout() {
+		Heading heading = new Heading("Data Model");
+		add(heading);
+		add(dataModelSearchWidget, new VerticalLayoutData(-1,-1, new Margins(0,0,10,0)));
+		add(dataModelList, new VerticalLayoutData(-1,-1, new Margins(30,0,0,0)));
+		setWidth(300);	
+	
+	}
+
+}

@@ -1,0 +1,54 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.targetdatamodel;
+
+import com.analytics.shared.TestData;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Label;
+import com.sencha.gxt.data.shared.TreeStore;
+import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.AccordionLayoutAppearance;
+import com.sencha.gxt.widget.core.client.container.AccordionLayoutContainer.ExpandMode;
+
+public class TargetDataModelStack {
+	
+	
+	public TargetDataModelStack() {
+		
+		  AccordionLayoutAppearance appearance = GWT.<AccordionLayoutAppearance> create(AccordionLayoutAppearance.class);
+
+	   	      ContentPanel cp2 = new ContentPanel(appearance);
+	      cp2.setAnimCollapse(false);
+	      cp2.setBodyStyleName("pad-text");
+	      cp2.setHeading("Settings");
+	      cp2.add(new Label(TestData.DUMMY_TEXT_SHORT));
+
+	      ContentPanel cp3 = new ContentPanel(appearance);
+	      cp3.setAnimCollapse(false);
+	      cp3.setBodyStyleName("pad-text");
+	      cp3.setHeading("Stuff");
+	      cp3.add(new Label(TestData.DUMMY_TEXT_SHORT));
+
+	      ContentPanel cp4 = new ContentPanel(appearance);
+	      cp4.setAnimCollapse(false);
+	      cp4.setBodyStyleName("pad-text");
+	      cp4.setHeading("More Stuff");
+	      cp4.add(new Label(TestData.DUMMY_TEXT_SHORT));
+
+	      AccordionLayoutContainer accordion = new AccordionLayoutContainer();
+	      accordion.setExpandMode(ExpandMode.SINGLE_FILL);
+	      accordion.add(cp2);
+	      accordion.add(cp3);
+	      accordion.add(cp4);
+	      accordion.setActiveWidget(cp2);
+
+	      ContentPanel panel = new ContentPanel();
+	      panel.setHeading("Accordion Layout");
+	      panel.setBodyBorder(false);
+	      panel.add(accordion);
+	    }
+
+	    return panel;
+	  }
+	}
+
+}

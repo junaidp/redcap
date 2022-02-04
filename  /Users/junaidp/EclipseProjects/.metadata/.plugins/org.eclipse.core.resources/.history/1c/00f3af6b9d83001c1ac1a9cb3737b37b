@@ -1,0 +1,66 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.datamodel;
+
+import java.util.ArrayList;
+
+import com.analytics.shared.dtos.DataModelDTO;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.editor.client.Editor.Path;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Window;
+import com.sencha.gxt.core.client.ValueProvider;
+import com.sencha.gxt.data.shared.LabelProvider;
+import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.ModelKeyProvider;
+import com.sencha.gxt.data.shared.PropertyAccess;
+import com.sencha.gxt.widget.core.client.ListView;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.ListField;
+
+public class DataModelListWidget extends VerticalLayoutContainer {
+	
+	public interface Properties extends PropertyAccess<DataModelDTO> {
+		
+		  @Editor.Path("key")
+	        ModelKeyProvider<DataModelDTO> key();
+
+	    ModelKeyProvider<DataModelDTO> abbr();
+	    LabelProvider<DataModelDTO> name();
+	    
+	  
+	    @Path("name")
+	    ValueProvider<DataModelDTO, String> nameProp();
+	  }	
+	
+	  Properties properties = GWT.create(Properties.class);
+
+
+	public DataModelListWidget() {
+		
+		
+	      ListStore<DataModelDTO> dataModels = new ListStore<DataModelDTO>(properties.abbr());
+	      dataModels.addAll(getDummyData());
+
+	      ListView<DataModelDTO, String> listView = new ListView<DataModelDTO, String>(dataModels, properties.nameProp());
+
+	      ListField<DataModelDTO, String> listField = new ListField<DataModelDTO, String>(listView);
+
+	      add(listField);
+	      
+	      
+	}
+
+	private ArrayList<DataModelDTO> getDummyData() {
+		ArrayList<DataModelDTO> list = new ArrayList<DataModelDTO>();
+		DataModelDTO d1 = new DataModelDTO();
+		d1.setId(1);
+		d1.setName("Name1");
+		DataModelDTO d2 = new DataModelDTO();
+		d2.setId(2);
+		d2.setName("Name2");
+		list.add(d1);
+		list.add(d2);
+		return list;
+	}
+
+}

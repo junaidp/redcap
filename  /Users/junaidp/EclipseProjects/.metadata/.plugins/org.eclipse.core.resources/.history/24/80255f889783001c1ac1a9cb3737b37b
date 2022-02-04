@@ -1,0 +1,5 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel;
+
+public class TargetDataModelPanel {
+
+}

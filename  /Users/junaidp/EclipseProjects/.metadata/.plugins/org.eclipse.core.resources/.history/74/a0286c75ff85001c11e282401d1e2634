@@ -1,0 +1,69 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.packages;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.shared.dtos.PackageDTO;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.core.client.util.ToggleGroup;
+import com.sencha.gxt.widget.core.client.container.CssFloatLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.CssFloatLayoutContainer.CssFloatData;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.FieldLabel;
+import com.sencha.gxt.widget.core.client.form.Radio;
+import com.sencha.gxt.widget.core.client.form.TextField;
+
+public class PackageCreation extends VerticalLayoutContainer implements Panels {
+
+	private  TextField name = new TextField();
+    
+	public PackageCreation() {
+		layout();
+		
+	}
+	
+	
+	public void populate(PackageDTO packageDTO) {
+		name.setText(packageDTO.getName());
+	}
+	
+	@Override
+	public void layout() {
+		 
+		      name.setAllowBlank(false);
+
+		      TextField lastName = new TextField();
+		      lastName.setAllowBlank(false);
+
+		      Radio radio1 = new Radio();
+		      radio1.setHeight(20);
+		      radio1.setBoxLabel("Yes");
+
+		      Radio radio2 = new Radio();
+		      radio2.setHeight(20);
+		      radio2.setBoxLabel("No");
+
+		      CssFloatLayoutContainer radios = new CssFloatLayoutContainer();
+		      radios.add(radio1, new CssFloatData(-1, new Margins(4, 0, 0, 0)));
+		      radios.add(radio2, new CssFloatData(-1, new Margins(4, 0, 0, 0)));
+
+		      ToggleGroup group = new ToggleGroup();
+		      group.add(radio1);
+		      group.add(radio2);
+
+		      CssFloatLayoutContainer columns = new CssFloatLayoutContainer();
+		      columns.add(new FieldLabel(name, "Package Name"), new CssFloatData(1, new Margins(0, 7, 0, 0)));
+
+		      VerticalLayoutContainer container = new VerticalLayoutContainer();
+		      container.add(columns, new VerticalLayoutData(1, -1, new Margins(15, 15, 0, 15)));
+		    
+
+		    add(container);
+		  }
+	public TextField getName() {
+		return name;
+	}
+	public void setFirstName(TextField firstName) {
+		this.name = firstName;
+	}
+	
+	
+}

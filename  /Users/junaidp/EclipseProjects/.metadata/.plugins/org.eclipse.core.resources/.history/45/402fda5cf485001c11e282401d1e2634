@@ -1,0 +1,74 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.tables;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.client.view.widgets.IconsWidget;
+import com.analytics.shared.TestData;
+import com.analytics.shared.dtos.TablesDTO;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.Dialog;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+
+public class TablesPanel extends VerticalLayoutContainer implements Panels {
+	
+	private TablesGrid tablesGrid =   null;
+	public TablesPanel() {
+		layout();
+	}
+
+	@Override
+	public void layout() {
+		IconsWidget iconsWIdget = new IconsWidget();		
+		
+		add(iconsWIdget, new VerticalLayoutData(-1,-1, new Margins(10,0,20,0)));
+		tablesGrid = new TablesGrid(null);
+		add(tablesGrid, new VerticalLayoutData(-1,-1, new Margins(0,0,0,0)));
+		
+		iconsWIdget.add.addClickHandler(Event -> addTable());
+		
+	}
+	
+	private void addTable() {
+		Dialog d = new Dialog();
+		
+		d.setHeading("Create Table");
+		d.addButton(new TextButton("Cancel"));
+		d.addButton(new TextButton("Submit"));
+		TableCreation tableCreation = new TableCreation();
+		d.setWidget(tableCreation);
+		d.setWidth(520);
+		d.setPredefinedButtons(PredefinedButton.OK, PredefinedButton.CANCEL);
+		d.getButton(PredefinedButton.OK).addSelectHandler(new SelectHandler() {
+			
+			@Override
+			public void onSelect(SelectEvent event) {
+				addTable(tableCreation);
+				d.hide();
+			}
+		});
+		d.show();
+	}
+	
+	private void addTable(TableCreation tableCreation) {
+		TablesDTO d1 = new TablesDTO();
+		d1.setKey(tableCreation.getTableName().getText()+"key");
+		d1.setName(tableCreation.getTableName().getText());
+		d1.setAliases(tableCreation.getAliases().getText());
+		d1.setOracleName(tableCreation.getOracleName().getText());
+		d1.setSasLabel(tableCreation.getSasLabel().getText());
+		d1.setSasName(tableCreation.getSasName().getText());
+		d1.setSdtmIndentifier("Stm identifer");
+		d1.setPackageId(tableCreation.getSelectedPackage().getKey());
+		
+		
+		TestData.addTagrgetDataModel(d1);
+		tablesGrid.populate(TestData.getTargetDataModelList());
+		
+		
+	}
+
+
+}

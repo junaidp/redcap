@@ -1,0 +1,19 @@
+package com.analytics.client.view.menus.dashboard;
+
+import com.sencha.gxt.widget.core.client.grid.Grid;
+
+public class DashboardUtils {
+	
+	public static void setDefaultGridStyle(Grid<?> grid) {
+		grid.setAllowTextSelection(false);
+		grid.getView().setStripeRows(true);
+		grid.getView().setColumnLines(true);
+		grid.setBorders(false);
+		grid.setColumnReordering(true);
+		grid.setWidth("100%");
+		grid.getView().setForceFit(true);
+		grid.getView().setAutoFill(true);
+		//resize(grid);
+	}
+
+}

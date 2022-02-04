@@ -1,0 +1,73 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.datamodel;
+
+import com.analytics.client.view.MenuBase;
+import com.analytics.client.view.menus.dashboard.Heading;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.shared.dtos.DataModelDTO;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
+
+public class DataModelPanel extends MenuBase implements IsWidget, Panels {
+	
+	private DataModelListWidget dataModelList = new DataModelListWidget();
+	private DataModelSearchWidget dataModelSearchWidget = new DataModelSearchWidget();	
+	
+	@Override
+	public Widget layout() {
+		
+		 
+		VerticalLayoutContainer v = new VerticalLayoutContainer();
+		Heading heading = new Heading("Data Model");
+		v.add(heading);
+		
+		v.add(dataModelSearchWidget, new VerticalLayoutData(-1,-1, new Margins(0,0,10,0)));
+		v.add(dataModelList, new VerticalLayoutData(-1,-1, new Margins(30,0,0,0)));
+		v.setWidth(300);
+		return v;
+	
+	}
+
+
+	@Override
+	public Widget asWidget() {
+		return layout();
+	}
+	
+	public void populate() {
+		dataModelList.dataModels.addAll(testData.getDataModelList());
+
+	}
+	
+	private void handlers() {
+		dataModelSearchWidget.add.addClickHandler(Event -> addDataModel());
+		
+	}
+	
+	private void addDataModel() {
+		DataModelDTO d1 = new DataModelDTO();
+		d1.setId(1);
+		d1.setKey("h1");
+		d1.setName("Name1");
+		DataModelDTO d2 = new DataModelDTO();
+		d2.setId(2);
+		d2.setName("Name2");
+		d2.setKey("h2");
+		testData.addDataModel(d1);
+		testData.addDataModel(d2);
+		refreshList();
+		
+	}
+	
+	protected void refreshList() {
+		dataModelList.dataModels.clear();
+		dataModelList.dataModels.addAll(testData.getDataModelList());
+		dataModelList.listView.getSelectionModel().select(0, true);
+		
+	}
+
+
+
+}

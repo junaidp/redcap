@@ -1,0 +1,89 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.packages;
+
+import com.analytics.client.view.menus.dashboard.Heading;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.shared.TestData;
+import com.analytics.shared.dtos.PackageDTO;
+import com.google.gwt.dom.client.Style.Unit;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.Dialog;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.FramedPanel;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+
+public class PackagePanel extends VerticalLayoutContainer implements Panels {
+
+	private PackageListWidget dataModelList= null;
+	private PackageSearchWidget dataModelSearchWidget = null;	
+	public TestData testData = new TestData();
+
+	public PackagePanel() {
+		layout();
+	}
+
+	public void layout() {
+		dataModelList = new PackageListWidget();
+		dataModelSearchWidget = new PackageSearchWidget();
+
+		Heading heading = new Heading("Data Model");
+		add(heading);
+
+		add(dataModelSearchWidget, new VerticalLayoutData(-1,-1, new Margins(0,0,10,0)));
+		add(dataModelList, new VerticalLayoutData(-1,-1, new Margins(30,0,0,0)));
+		setWidth(300);
+		handlers();
+	}
+
+	public void populate() {
+		dataModelList.store.addAll(testData.getDataModelList());
+
+	}
+
+	private void handlers() {
+		dataModelSearchWidget.add.addClickHandler(Event -> createPackage());
+
+	}
+
+	private void createPackage() {
+		PackageCreation packageCreation = new PackageCreation();
+		Dialog d = new Dialog();
+		
+		d.setHeading("Create Package");
+		d.addButton(new TextButton("Cancel"));
+		d.addButton(new TextButton("Submit"));
+
+		d.setWidget(packageCreation);
+		d.setSize("400px", "200px");
+		d.setPredefinedButtons(PredefinedButton.OK, PredefinedButton.CANCEL);
+		d.getButton(PredefinedButton.OK).addSelectHandler(new SelectHandler() {
+			
+			@Override
+			public void onSelect(SelectEvent event) {
+				addPackage(packageCreation);
+				d.hide();
+			}
+		});
+		d.show();
+	}
+
+	private void addPackage(PackageCreation packageCreation) {
+		PackageDTO d1 = new PackageDTO();
+		d1.setId(1);
+		d1.setKey(packageCreation.getFirstName().getText()+"key");
+		d1.setName(packageCreation.getFirstName().getText());
+		
+		testData.addDataModel(d1);
+		refreshList();
+
+	}
+
+	protected void refreshList() {
+		dataModelList.store.clear();
+		dataModelList.store.addAll(testData.getDataModelList());
+		dataModelList.listView.getSelectionModel().select(0, true);
+
+	}
+}

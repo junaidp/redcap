@@ -1,0 +1,34 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.packages;
+
+import com.analytics.client.view.images.Images;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.client.view.widgets.IconsWidget;
+import com.google.gwt.user.client.ui.Image;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.TextField;
+
+public class PackageSearchWidget extends HorizontalLayoutContainer implements Panels {
+	
+	private IconsWidget iconsWIdget = new IconsWidget();
+		
+	public PackageSearchWidget() {
+		layout();
+	
+	}
+
+	@Override
+	public void layout() {
+		HorizontalLayoutContainer h = new HorizontalLayoutContainer();
+		TextField searchField = new TextField();
+		h.add(searchField, new HorizontalLayoutData(-1,-1, new Margins(10,0,10,0)));
+		h.add(iconsWIdget, new HorizontalLayoutData(-1,-1, new Margins(10,0,10,0)));
+		searchField.setEmptyText("search package ");
+		add(h);
+		setHeight(30);
+	}
+
+	public IconsWidget getIconsWIdget() {
+		return iconsWIdget;
+	}
+}

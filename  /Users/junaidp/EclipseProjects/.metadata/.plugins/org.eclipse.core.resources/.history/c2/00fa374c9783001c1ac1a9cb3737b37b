@@ -1,0 +1,50 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.left;
+
+import java.util.ArrayList;
+
+import com.analytics.shared.dtos.DataModelDTO;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.editor.client.Editor.Path;
+import com.sencha.gxt.core.client.ValueProvider;
+import com.sencha.gxt.data.shared.LabelProvider;
+import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.ModelKeyProvider;
+import com.sencha.gxt.data.shared.PropertyAccess;
+import com.sencha.gxt.widget.core.client.ListView;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.ListField;
+
+public class DataModelListPanel extends VerticalLayoutContainer {
+	
+	interface Properties extends PropertyAccess<DataModelDTO> {
+	    ModelKeyProvider<DataModelDTO> abbr();
+
+	    LabelProvider<DataModelDTO> name();
+
+	    @Path("name")
+	    ValueProvider<DataModelDTO, String> nameProp();
+	  }	
+
+	public DataModelListPanel() {
+		
+		  Properties properties = GWT.create(Properties.class);
+
+	      ListStore<DataModelDTO> dataModels = new ListStore<DataModelDTO>(properties.abbr());
+	      dataModels.addAll(getDummyData());
+
+	      ListView<DataModelDTO, String> listView = new ListView<DataModelDTO, String>(dataModels, properties.nameProp());
+
+	      ListField<DataModelDTO, String> listField = new ListField<DataModelDTO, String>(listView);
+
+	      add(listField);
+	}
+
+	private ArrayList<DataModelDTO> getDummyData() {
+		ArrayList<DataModelDTO> list = new ArrayList<DataModelDTO>();
+		DataModelDTO d = new DataModelDTO();
+		d.setName("Name");
+		list.add(d);
+		return list;
+	}
+
+}

@@ -1,0 +1,43 @@
+package com.analytics.client.view.menus.dashboard;
+
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.widget.core.client.Dialog;
+import com.sencha.gxt.widget.core.client.box.AutoProgressMessageBox;
+import com.sencha.gxt.widget.core.client.grid.Grid;
+
+public class DashboardUtils {
+	
+	public static void setDefaultGridStyle(Grid<?> grid) {
+		grid.setAllowTextSelection(false);
+		grid.getView().setStripeRows(true);
+		grid.getView().setColumnLines(true);
+		grid.setBorders(false);
+		grid.setColumnReordering(true);
+		grid.getView().setForceFit(true);
+		grid.getView().setAutoFill(true);
+		resize(grid);
+	}
+	
+	public static void resize(final Widget v) {
+		Window.addResizeHandler(new ResizeHandler() {
+			@Override
+			public void onResize(ResizeEvent event) {
+				v.setWidth(Window.getClientWidth() - 10 + "px");
+			}
+		});
+	}
+	
+	public static AutoProgressMessageBox getProgressMessageBox(String heading, String progressMessage) {
+		AutoProgressMessageBox messageBoxProgress = new AutoProgressMessageBox(heading);
+		messageBoxProgress.auto();
+		messageBoxProgress.getProgressBar().setDuration(5000);
+		messageBoxProgress.setProgressText(progressMessage);
+		messageBoxProgress.setPredefinedButtons(Dialog.PredefinedButton.CANCEL);
+		messageBoxProgress.show();
+		return messageBoxProgress;
+	}
+
+}

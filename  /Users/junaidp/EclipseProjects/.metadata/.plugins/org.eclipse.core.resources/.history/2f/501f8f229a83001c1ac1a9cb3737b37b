@@ -1,0 +1,5 @@
+package com.analytics.client.view.images;
+
+public interface Images {
+
+}

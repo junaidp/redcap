@@ -1,0 +1,53 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.tables;
+
+import com.analytics.client.view.images.Images;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.google.gwt.user.client.ui.Image;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.widget.core.client.Dialog;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+
+public class TablesPanel extends VerticalLayoutContainer implements Panels {
+	
+	public TablesPanel() {
+		layout();
+	}
+
+	@Override
+	public void layout() {
+		Image addTable = new Image(Images.INSTANCE.add());
+		
+		add(addTable);
+		
+		add(new TablesGrid(null), new VerticalLayoutData(-1,-1, new Margins(0,0,0,0)));
+		
+		addTable.addClickHandler(Event -> addTable());
+		
+	}
+	
+	private void addTable() {
+		Dialog d = new Dialog();
+		
+		d.setHeading("Create Table");
+		d.addButton(new TextButton("Cancel"));
+		d.addButton(new TextButton("Submit"));
+
+		d.setWidget(new TableCreation());
+		d.setWidth(520);
+		d.setPredefinedButtons(PredefinedButton.OK, PredefinedButton.CANCEL);
+		d.getButton(PredefinedButton.OK).addSelectHandler(new SelectHandler() {
+			
+			@Override
+			public void onSelect(SelectEvent event) {
+				//addPackage(packageCreation);
+				d.hide();
+			}
+		});
+		d.show();
+	}
+
+}

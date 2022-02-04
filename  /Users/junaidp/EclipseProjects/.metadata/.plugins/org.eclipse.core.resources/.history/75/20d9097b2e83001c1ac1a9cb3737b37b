@@ -1,0 +1,30 @@
+package com.analytics.client.view.menus.queries.steps.clinicaldatamodel;
+
+
+import com.analytics.client.view.menus.queries.steps.TabImpl;
+import com.google.gwt.user.client.ui.HTML;
+import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
+
+public class ClinicalDataModel extends TabImpl{
+
+	public ClinicalDataModel() {
+		BorderLayoutContainer h = new BorderLayoutContainer();
+		h.setWestWidget(new DataModelPanel(), new BorderLayoutData(100));
+		//h.add(new HTML("right"));
+		add(h);
+	}
+	
+
+	@Override
+	public void loadModel() {
+
+
+	}
+
+	@Override
+	public void saveModel() {
+
+	}
+
+}

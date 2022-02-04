@@ -1,0 +1,195 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.targetdatamodel;
+
+import com.analytics.client.view.MenuBase;
+import com.google.gwt.cell.client.Cell;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.cell.core.client.TextButtonCell;
+import com.sencha.gxt.core.client.ValueProvider;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.ModelKeyProvider;
+import com.sencha.gxt.data.shared.PropertyAccess;
+import com.sencha.gxt.widget.core.client.box.AutoProgressMessageBox;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
+import com.sencha.gxt.widget.core.client.grid.ColumnModel;
+import com.sencha.gxt.widget.core.client.grid.Grid;
+import com.sencha.gxt.widget.core.client.info.Info;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TargetDataModelWidget extends MenuBase {
+    private static final com.wbc.supervisor.client.dashboardutilities.view.menus.vendorManagement.VendorManagement.vendorProperties props = GWT.create(com.wbc.supervisor.client.dashboardutilities.view.menus.vendorManagement.VendorManagement.vendorProperties.class);
+    private ListStore<DeviceinfoDataDTO> store = null;
+    protected TextButton btnAddVendor = new TextButton("Add New Vendor");
+    protected TextButton btnEditVendor = new TextButton("Edit Existing Vendor");
+
+    public VendorManagement(AsyncCallback<String> asyncCallback) {
+        this.asyncCallback = asyncCallback;
+        container.add(layout());
+        getVendorsList();
+    }
+
+    private Widget layout() {
+        VerticalLayoutContainer vlc = new VerticalLayoutContainer();
+        HorizontalLayoutContainer h = new HorizontalLayoutContainer();
+        //vlc.setHeight(300);
+        vlc.add(new HTML("All vendors should use a MAC Address assigned by IEEE. Any MAC in this list was not found in the IEEE list and should be considered suspect. <br>" +
+                "You may give the vendor a name using this utility."));
+        h.add(btnAddVendor);
+        h.add(btnEditVendor, new HorizontalLayoutContainer.HorizontalLayoutData(-1, -1, new Margins(0, 0, 0, 10)));
+        h.setHeight(50);
+        vlc.add(h, new VerticalLayoutContainer.VerticalLayoutData(-1, -1, new Margins(5, 0, 0, 0)));
+
+        btnAddVendor.getElement().getStyle().setPaddingBottom(10, Style.Unit.PX);
+        vlc.add(grid());
+        btnAddVendor.setWidth(150);
+        btnEditVendor.setWidth(150);
+        btnAddVendor.addSelectHandler(event -> addMissingVendor(null));
+        btnEditVendor.addSelectHandler(event -> editVendor());
+
+        return vlc;
+    }
+
+    private void editVendor() {
+        EditVendorManagement addNewVendor = new EditVendorManagement(new AsyncCallback<String>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                DashboardUtils.logError("Error in Edit Vendor" + caught.getMessage());
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                Info.display("Edit Vendor Name", result);
+                getVendorsList();
+            }
+        });
+        addNewVendor.go();
+    }
+
+    public interface vendorProperties extends PropertyAccess<DeviceinfoDataDTO> {
+        ModelKeyProvider<DeviceinfoDataDTO> uniqueId();
+
+        ValueProvider<DeviceinfoDataDTO, String> ipAddress();
+
+        ValueProvider<DeviceinfoDataDTO, String> name();
+
+        ValueProvider<DeviceinfoDataDTO, String> macAddress();
+
+        ValueProvider<DeviceinfoDataDTO, String> keycode();
+
+
+
+    }
+
+    public VerticalLayoutContainer grid() {
+
+        ColumnConfig<DeviceinfoDataDTO, String> ipAddressCol = new ColumnConfig<DeviceinfoDataDTO, String>(props.ipAddress(), 150, "IP");
+        ColumnConfig<DeviceinfoDataDTO, String> nameCol = new ColumnConfig<DeviceinfoDataDTO, String>(props.name(), 150, "Name");
+        ColumnConfig<DeviceinfoDataDTO, String> macCol = new ColumnConfig<DeviceinfoDataDTO, String>(props.macAddress(), 150, "Mac");
+
+        ColumnConfig<DeviceinfoDataDTO, String> btnRemoveVendorCol = new ColumnConfig<DeviceinfoDataDTO, String>(props.ipAddress(), 120, "");
+        ColumnConfig<DeviceinfoDataDTO, String> editVendorNameCol = new ColumnConfig<DeviceinfoDataDTO, String>(props.name(), 120, "");
+
+        TextButtonCell btnRemoveVendor = new TextButtonCell();
+        TextButtonCell btnEditVendorName = new TextButtonCell();
+
+        btnEditVendorName.addSelectHandler(event -> addMissingVendor(event));
+
+        btnEditVendorName.setText("Add This Vendor Name");
+        btnRemoveVendor.setText("Exit Vendor");
+        editVendorNameCol.setCell(btnEditVendorName);
+        btnRemoveVendorCol.setCell(btnRemoveVendor);
+        List<ColumnConfig<DeviceinfoDataDTO, ?>> columns = new ArrayList<ColumnConfig<DeviceinfoDataDTO, ?>>();
+
+        columns.add(ipAddressCol);
+        columns.add(nameCol);
+        columns.add(macCol);
+        columns.add(editVendorNameCol);
+
+
+        ColumnModel<DeviceinfoDataDTO> cm = new ColumnModel<DeviceinfoDataDTO>(columns);
+
+        store = new ListStore<DeviceinfoDataDTO>(props.uniqueId());
+
+        final Grid<DeviceinfoDataDTO> grid = new Grid<DeviceinfoDataDTO>(store, cm);
+        grid.setHeight(400);
+        grid.setColumnResize(true);
+        macCol.setWidth(200);
+
+        DashboardUtils.setDefaultGridStyle(grid);
+//        return grid;
+        VerticalLayoutContainer vlc = new VerticalLayoutContainer();
+        vlc.add(grid, new VerticalLayoutContainer.VerticalLayoutData(-1, Window.getClientHeight() * .56));
+        Window.addResizeHandler(Event -> grid.setHeight(Window.getClientHeight() * .56 + "px"));
+        return vlc;
+    }
+
+    protected void getVendorsList() {
+        AutoProgressMessageBox messageBoxProgress = DashboardUtils.getProgressMessageBox("VendorMissing List", "Getting Vendors List");
+
+        supervisorService.vendorMissingListGet(Globals.HOST_IP_ADDRESS, new AsyncCallback<ArrayList<DeviceinfoDataDTO>>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                messageBoxProgress.hide();
+                logError("Failure in getting Vendors List " + caught.getMessage());
+                new WarningMessageBox(Constants.GETTING_MISSINGVENDOR_LIST, "Error in getting vendors List " + caught.getMessage());
+
+            }
+
+            @Override
+            public void onSuccess(ArrayList<DeviceinfoDataDTO> deviceinfoDataDTOList) {
+                messageBoxProgress.hide();
+                logInfo("Back from getting vendor List with size" + deviceinfoDataDTOList.size());
+                populate(deviceinfoDataDTOList);
+
+            }
+        });
+
+    }
+
+    private void populate(ArrayList<DeviceinfoDataDTO> deviceinfoDataDTOList) {
+        store.clear();
+        store.addAll(deviceinfoDataDTOList);
+
+    }
+
+    protected void addMissingVendor(SelectEvent event) {
+        String vendor = "";
+        if (event != null) {
+            Cell.Context c = event.getContext();
+            int row = c.getIndex();
+            DeviceinfoDataDTO deviceinfoDataDTO = store.get(row);
+            String mac = GxtStringUtils.upperCase(deviceinfoDataDTO.getMacAddress().replaceAll("\\s+", ""));
+            vendor = mac.substring(0, 6);
+        }
+
+        AddVendorManagement addNewVendor = new AddVendorManagement(vendor, new AsyncCallback<String>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                DashboardUtils.logError("Error in Add Vendor" + caught.getMessage());
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                Info.display("Add Vendor", result);
+                getVendorsList();
+            }
+        });
+        addNewVendor.go();
+    }
+
+
+}
+
+

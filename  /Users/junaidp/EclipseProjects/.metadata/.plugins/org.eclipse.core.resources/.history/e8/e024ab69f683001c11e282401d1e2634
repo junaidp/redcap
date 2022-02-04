@@ -1,0 +1,5 @@
+package com.analytics.client.view.menus.dashboard;
+
+public class Heading {
+
+}

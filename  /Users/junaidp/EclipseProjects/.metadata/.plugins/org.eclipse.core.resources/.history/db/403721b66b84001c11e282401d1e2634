@@ -1,0 +1,31 @@
+package com.analytics.shared.dtos;
+
+import com.sencha.gxt.core.client.ValueProvider;
+
+public class TargetDataModelDTO {
+	
+	private String key;
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
+	private String  name;
+	private String  oracleName;
+	private String  sasName;
+	private String  sasLabel;
+	private String  aliases;
+	private String  sdtmIndentifier;
+	
+	
+
+}

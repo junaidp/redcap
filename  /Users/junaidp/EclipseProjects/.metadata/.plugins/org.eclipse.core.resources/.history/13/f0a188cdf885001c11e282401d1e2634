@@ -1,0 +1,153 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.columns;
+
+import java.util.List;
+
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.tables.TableCreation.PackageProperties;
+import com.analytics.shared.TestData;
+import com.analytics.shared.dtos.PackageDTO;
+import com.analytics.shared.dtos.TablesDTO;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.sencha.gxt.cell.core.client.form.ComboBoxCell.TriggerAction;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.data.shared.LabelProvider;
+import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.ModelKeyProvider;
+import com.sencha.gxt.data.shared.PropertyAccess;
+import com.sencha.gxt.widget.core.client.FramedPanel;
+import com.sencha.gxt.widget.core.client.container.CssFloatLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.CssFloatLayoutContainer.CssFloatData;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.form.ComboBox;
+import com.sencha.gxt.widget.core.client.form.FieldLabel;
+import com.sencha.gxt.widget.core.client.form.FormPanel.LabelAlign;
+import com.sencha.gxt.widget.core.client.form.FormPanelHelper;
+import com.sencha.gxt.widget.core.client.form.TextField;
+
+public class ColumnCreation extends VerticalLayoutContainer implements Panels {
+
+	private TextField columnName = null;
+	private TextField order = null;
+	private TextField orderDataType = null;
+	private TextField length = null;
+	private TextField precision = null;
+	private TextField filter = null;
+	
+	interface TableProperties extends PropertyAccess<TablesDTO> {
+		@com.google.gwt.editor.client.Editor.Path("key")
+		ModelKeyProvider<TablesDTO> key();
+
+	    LabelProvider<TablesDTO> name();
+	  }
+
+
+	
+	public ColumnCreation() {
+		init();
+		layout();
+	}
+	private void init() {
+		columnName = new TextField();
+		order = new TextField();
+		orderDataType = new TextField();
+		length = new TextField();
+		precision = new TextField();
+		filter = new TextField();
+		
+	}
+	@Override
+	public void layout() {
+		 
+		columnName.setAllowBlank(false);
+
+		order.setAllowBlank(false);
+		
+		CssFloatLayoutContainer columns = new CssFloatLayoutContainer();
+		columns.add(new FieldLabel(columnName, "Column Name"), new CssFloatData(0.5, new Margins(0, 7, 0, 0)));
+		columns.add(new FieldLabel(order, "Order"), new CssFloatData(0.5, new Margins(0, 0, 0, 8)));
+		columns.add(new FieldLabel(orderDataType, "Order Data Type"), new CssFloatData(0.5, new Margins(0, 7, 0, 0)));
+		columns.add(new FieldLabel(length, "Length"), new CssFloatData(0.5, new Margins(0, 0, 0, 8)));
+		columns.add(new FieldLabel(precision, "Precision"), new CssFloatData(0.5, new Margins(0, 7, 0, 0)));
+		columns.add(new FieldLabel(filter, "Filter/SDTM "), new CssFloatData(0.5, new Margins(0, 0, 0, 8)));
+
+
+		VerticalLayoutContainer container = new VerticalLayoutContainer();
+		container.add(columns, new VerticalLayoutData(1, -1, new Margins(15, 15, 0, 15)));
+		
+		FramedPanel panel = new FramedPanel();
+		panel.setHeading("Advanced Forms");
+		panel.setHeaderVisible(false);
+		panel.add(container);
+	
+		// need to call after everything is constructed
+		List<FieldLabel> fieldLabels = FormPanelHelper.getFieldLabels(panel);
+		for (FieldLabel fieldLabel : fieldLabels) {
+			fieldLabel.setLabelAlign(LabelAlign.TOP);
+		}
+
+
+		add(container);
+	}
+	
+	private ComboBox<PackageDTO> getTableCombo() {
+		  PackageProperties properties = GWT.create(PackageProperties.class);
+
+	      ListStore<PackageDTO> statesStore = new ListStore<PackageDTO>(properties.key());
+	      statesStore.addAll(TestData.getPackageList());
+	      
+	      ComboBox<PackageDTO> combo = new ComboBox<PackageDTO>(statesStore, properties.name());
+	      combo.setEmptyText("Select a package");
+	      combo.setTypeAhead(true);
+	      combo.setTriggerAction(TriggerAction.ALL);
+	      
+	      combo.addSelectionHandler(new SelectionHandler<PackageDTO>() {
+	          @Override
+	          public void onSelection(SelectionEvent<PackageDTO> event) {
+	        	  selectedPackage = event.getSelectedItem();
+	          }
+	        });
+	      
+	      return combo;
+	}
+	
+	public TextField getColumnName() {
+		return columnName;
+	}
+	public void setColumnName(TextField columnName) {
+		this.columnName = columnName;
+	}
+	public TextField getOrder() {
+		return order;
+	}
+	public void setOrder(TextField order) {
+		this.order = order;
+	}
+	public TextField getOrderDataType() {
+		return orderDataType;
+	}
+	public void setOrderDataType(TextField orderDataType) {
+		this.orderDataType = orderDataType;
+	}
+	public TextField getLength() {
+		return length;
+	}
+	public void setLength(TextField length) {
+		this.length = length;
+	}
+	public TextField getPrecision() {
+		return precision;
+	}
+	public void setPrecision(TextField precision) {
+		this.precision = precision;
+	}
+	public TextField getFilter() {
+		return filter;
+	}
+	public void setFilter(TextField filter) {
+		this.filter = filter;
+	}
+
+	
+}

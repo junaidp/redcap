@@ -1,0 +1,175 @@
+package com.analytics.client.view.menus.dashboard.steps.clinicaldatamodel.targetdatamodel;
+
+import com.analytics.client.view.menus.dashboard.DashboardUtils;
+import com.analytics.client.view.menus.dashboard.Panels;
+import com.analytics.shared.TestData;
+import com.analytics.shared.dtos.TablesDTO;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.sencha.gxt.cell.core.client.TextButtonCell;
+import com.sencha.gxt.core.client.ValueProvider;
+import com.sencha.gxt.core.client.util.Margins;
+import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.ModelKeyProvider;
+import com.sencha.gxt.data.shared.PropertyAccess;
+import com.sencha.gxt.widget.core.client.box.AutoProgressMessageBox;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.HorizontalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
+import com.sencha.gxt.widget.core.client.grid.ColumnModel;
+import com.sencha.gxt.widget.core.client.grid.Grid;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TablesGrid  extends VerticalLayoutContainer implements Panels {
+	private static final vendorProperties props = GWT.create(vendorProperties.class);
+	private ListStore<TablesDTO> store = null;
+	protected TextButton btnAddVendor = new TextButton("Add Table");
+	protected TextButton btnEditVendor = new TextButton("Edit Table");
+	TestData testData = new TestData();
+
+	public TablesGrid(AsyncCallback<String> asyncCallback) {
+		layout();
+		
+	}
+	
+	@Override
+	public void layout() {
+		HorizontalLayoutContainer h = new HorizontalLayoutContainer();
+		h.add(btnAddVendor);
+		h.add(btnEditVendor, new HorizontalLayoutContainer.HorizontalLayoutData(-1, -1, new Margins(0, 0, 0, 10)));
+		add(h, new VerticalLayoutContainer.VerticalLayoutData(-1, -1, new Margins(5, 0, 0, 0)));
+
+		btnAddVendor.getElement().getStyle().setPaddingBottom(10, Style.Unit.PX);
+		add(grid());
+		btnAddVendor.setWidth(150);
+		btnEditVendor.setWidth(150);
+		btnEditVendor.addSelectHandler(event -> editVendor());
+
+	}
+
+	private void editVendor() {
+		//        EditVendorManagement addNewVendor = new EditVendorManagement(new AsyncCallback<String>() {
+		//            @Override
+		//            public void onFailure(Throwable caught) {
+		//                DashboardUtils.logError("Error in Edit Vendor" + caught.getMessage());
+		//            }
+		//
+		//            @Override
+		//            public void onSuccess(String result) {
+		//                Info.display("Edit Vendor Name", result);
+		//                getList();
+		//            }
+		//        });
+		//        addNewVendor.go();
+	}
+
+	public interface vendorProperties extends PropertyAccess<TablesDTO> {
+
+		@com.google.gwt.editor.client.Editor.Path("key")
+		ModelKeyProvider<TablesDTO> key();
+
+		ValueProvider<TablesDTO, String> name();
+		ValueProvider<TablesDTO, String> oracleName();
+		ValueProvider<TablesDTO, String> sasName();
+		ValueProvider<TablesDTO, String> sasLabel();
+		ValueProvider<TablesDTO, String> aliases();
+		ValueProvider<TablesDTO, String> sdtmIndentifier();
+		
+
+	}
+
+	public VerticalLayoutContainer grid() {
+
+		ColumnConfig<TablesDTO, String> nameCol = new ColumnConfig<TablesDTO, String>(props.name(), 20, "Table Name");
+		ColumnConfig<TablesDTO, String> oracleName = new ColumnConfig<TablesDTO, String>(props.name(), 20, "Oracle Name");
+		ColumnConfig<TablesDTO, String> sasName = new ColumnConfig<TablesDTO, String>(props.name(), 20, "SAS Name");
+		ColumnConfig<TablesDTO, String> sasLabel = new ColumnConfig<TablesDTO, String>(props.name(), 20, "SAS Label");
+		ColumnConfig<TablesDTO, String> aliases = new ColumnConfig<TablesDTO, String>(props.name(), 20, "Aliases");
+		ColumnConfig<TablesDTO, String> sdtmIndentifier = new ColumnConfig<TablesDTO, String>(props.name(), 20, "SDTM Identifer");
+	
+		ColumnConfig<TablesDTO, String> btnRemove = new ColumnConfig<TablesDTO, String>(props.name(), 20, "");
+		ColumnConfig<TablesDTO, String> btnEdit = new ColumnConfig<TablesDTO, String>(props.name(), 20, "");
+
+		TextButtonCell btnRemoveVendor = new TextButtonCell();
+		TextButtonCell btnEditVendorName = new TextButtonCell();
+
+		// btnEditVendorName.addSelectHandler(event -> addMissingVendor(event));
+
+		btnEditVendorName.setText("Edit");
+		btnRemoveVendor.setText("Remove");
+		btnEdit.setCell(btnEditVendorName);
+		btnRemove.setCell(btnRemoveVendor);
+		List<ColumnConfig<TablesDTO, ?>> columns = new ArrayList<ColumnConfig<TablesDTO, ?>>();
+
+		columns.add(nameCol);
+		columns.add(oracleName);
+		columns.add(sasName);
+		columns.add(sasLabel);
+		columns.add(aliases);
+		columns.add(sdtmIndentifier);
+		columns.add(btnEdit);
+		columns.add(btnRemove);
+
+
+		ColumnModel<TablesDTO> cm = new ColumnModel<TablesDTO>(columns);
+
+		store = new ListStore<TablesDTO>(props.key());
+
+		final Grid<TablesDTO> grid = new Grid<TablesDTO>(store, cm);
+		grid.setColumnResize(true);
+
+		DashboardUtils.setDefaultGridStyle(grid);
+		VerticalLayoutContainer vlc = new VerticalLayoutContainer();
+		vlc.add(grid, new VerticalLayoutContainer.VerticalLayoutData(600, -1));
+		//grid.setWidth("100%");
+		
+		getList();
+		return vlc;
+	}
+
+	protected void getList() {
+		AutoProgressMessageBox messageBoxProgress = DashboardUtils.getProgressMessageBox("Data Model Target", "Getting Data Model Tagets");
+		addTargetData();	
+		messageBoxProgress.hide();
+		//logInfo("Back from getting TagetData List with size" + testData.getTargetDataModelList().size());
+		populate(testData.getTargetDataModelList());
+
+
+	}
+
+	private void addTargetData() {
+		TablesDTO d1 = new TablesDTO();
+		d1.setKey("target11");
+		d1.setName("Target1");
+		d1.setAliases("Aliases");
+		d1.setOracleName("Oracle name");
+		d1.setSasLabel("Sas Label");
+		d1.setSasName("Sas Name");
+		d1.setSdtmIndentifier("Stm identifer");
+		
+		TablesDTO d2 = new TablesDTO();
+		d2.setKey("target2");
+		d2.setName("Target2");
+		d2.setAliases("Aliases2");
+		d2.setOracleName("Oracle name2");
+		d2.setSasLabel("Sas Label2");
+		d2.setSasName("Sas Name2");
+		d2.setSdtmIndentifier("Stm identifer2");
+		testData.addTagrgetDataModel(d1);
+		testData.addTagrgetDataModel(d2);
+		
+	}
+
+	private void populate(ArrayList<TablesDTO> TargetDataModelDTOList) {
+		store.clear();
+		store.addAll(TargetDataModelDTOList);
+
+	}
+
+}
+
+
